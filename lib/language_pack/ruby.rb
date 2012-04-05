@@ -53,6 +53,7 @@ class LanguagePack::Ruby < LanguagePack::Base
       create_database_yml
       install_binaries
       run_assets_precompile_rake_task
+      generate_jekyll_site
     end
   end
 
@@ -450,6 +451,14 @@ params = CGI.parse(uri.query || "")
     if rake_task_defined?("assets:precompile")
       topic "Running: rake assets:precompile"
       pipe("env PATH=$PATH:bin bundle exec rake assets:precompile 2>&1")
+    end
+  end
+
+  def generate_jekyll_site
+    puts "Building jekyll site"
+    run("env PATH=$PATH bundle exec jekyll --no-auto --no-server")
+    unless $? == 0
+      error "Failed to generate site with jekyll."
     end
   end
 end
