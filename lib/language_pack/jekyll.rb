@@ -25,6 +25,6 @@ class LanguagePack::Jekyll < LanguagePack::Rack
 
   def generate_jekyll_site
     topic("Building Jekyll site")
-    pipe("env PATH=$PATH make build 2>&1")
+    pipe("env PATH=$PATH jekyll --no-auto --no-server 2>&1")
   end
 end
